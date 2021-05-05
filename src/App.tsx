@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 
 import { Quiz } from "./containers";
-import { Layout } from "./components";
+import { Button, Layout } from "./components";
 import { IQuestion } from "./interfaces";
 
 export const App: React.FC = () => {
-  const [isFinished, setIsFinished] = useState<Boolean>(false);
-
   const quiz: Array<IQuestion> = [
     {
       title: "В каком году основали Санкт-Петербург?",
@@ -31,17 +29,13 @@ export const App: React.FC = () => {
     },
   ];
 
+  const onClickHandler = () => {
+    console.log("button clicked");
+  };
+
   return (
     <Layout>
-      {isFinished ? (
-        <h1>Тест пройден</h1>
-      ) : (
-        <Quiz
-          quiz={quiz}
-          isFinished={isFinished}
-          setIsFinished={setIsFinished}
-        />
-      )}
+      <Quiz quiz={quiz} />
     </Layout>
   );
 };

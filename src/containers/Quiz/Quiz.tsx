@@ -1,22 +1,18 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import { Question } from "@components/index";
-import { IQuestion } from "src/interfaces";
+import { IQuestion, IUserAnswer } from "src/interfaces";
 import { useStyle } from "./style";
+import { FinishPage } from "@containers/FinishPage/FinishPage";
 
 interface IQuizProps {
   quiz: Array<IQuestion>;
-  isFinished: Boolean;
-  setIsFinished: Function;
 }
 
-export const Quiz: React.FC<IQuizProps> = ({
-  quiz,
-  isFinished,
-  setIsFinished,
-}) => {
+export const Quiz: React.FC<IQuizProps> = ({ quiz }) => {
   const [activeQuestion, setActiveQuestion] = useState<number>(0);
   const [title, setTitle] = useState(() => quiz[activeQuestion].title);
-  const [userAnswers, setUserAnswers] = useState<Number[]>([]);
+  const [userAnswers, setUserAnswers] = useState<IUserAnswer[]>([]);
+  const [isFinished, setIsFinished] = useState<Boolean>(false);
 
   const classes = useStyle();
 
@@ -24,7 +20,15 @@ export const Quiz: React.FC<IQuizProps> = ({
     event: React.MouseEvent<HTMLUListElement>,
     answerId: Number
   ) => {
-    setUserAnswers((prev) => [...prev, answerId]);
+    setUserAnswers((prev: IUserAnswer[]) => {
+      return [
+        ...prev,
+        {
+          userAnswer: answerId,
+          isCorrect: quiz[activeQuestion].rightAnswerId == answerId,
+        },
+      ];
+    });
 
     const target = event.currentTarget;
 
@@ -48,14 +52,20 @@ export const Quiz: React.FC<IQuizProps> = ({
   }, [activeQuestion]);
 
   return (
-    <>
-      <Question
-        title={title}
-        answers={quiz[activeQuestion].answers}
-        userAnswersHandler={userAnswersHandler}
-        activeQuestion={activeQuestion}
-        questionsCount={quiz.length}
-      />
-    </>
+    <div className={classes.main}>
+      <div className={classes.wrapper}>
+        {isFinished ? (
+          <FinishPage userAnswers={userAnswers} />
+        ) : (
+          <Question
+            title={title}
+            answers={quiz[activeQuestion].answers}
+            userAnswersHandler={userAnswersHandler}
+            activeQuestion={activeQuestion}
+            questionsCount={quiz.length}
+          />
+        )}
+      </div>
+    </div>
   );
 };
