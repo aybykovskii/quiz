@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Quiz } from "./containers";
 import { Layout } from "./components";
+import { IQuestion } from "./interfaces";
 
-export const App = () => {
-  const quiz = [
+export const App: React.FC = () => {
+  const [isFinished, setIsFinished] = useState<Boolean>(false);
+
+  const quiz: Array<IQuestion> = [
     {
       title: "В каком году основали Санкт-Петербург?",
       answers: [
@@ -30,7 +33,15 @@ export const App = () => {
 
   return (
     <Layout>
-      <Quiz quiz={quiz} />
+      {isFinished ? (
+        <h1>Тест пройден</h1>
+      ) : (
+        <Quiz
+          quiz={quiz}
+          isFinished={isFinished}
+          setIsFinished={setIsFinished}
+        />
+      )}
     </Layout>
   );
 };

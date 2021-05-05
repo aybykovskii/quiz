@@ -1,43 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { Question } from "@components/index";
+import { IQuestion } from "src/interfaces";
+import { useStyle } from "./style";
 
-export const Quiz = (props: any) => {
-  const [activeQuestion, setActiveQuestion] = useState(0);
-  const [title, setTitle] = useState(() => props.quiz[activeQuestion].title);
-  const [userAnswers, setUserAnswers] = useState<React.ReactNodeArray>([]);
+interface IQuizProps {
+  quiz: Array<IQuestion>;
+  isFinished: Boolean;
+  setIsFinished: Function;
+}
 
-  const userAnswersHandler = (e: any, answerId: any) => {
-    setUserAnswers([...userAnswers, answerId]);
+export const Quiz: React.FC<IQuizProps> = ({
+  quiz,
+  isFinished,
+  setIsFinished,
+}) => {
+  const [activeQuestion, setActiveQuestion] = useState<number>(0);
+  const [title, setTitle] = useState(() => quiz[activeQuestion].title);
+  const [userAnswers, setUserAnswers] = useState<Number[]>([]);
 
-    if (answerId === props.quiz[activeQuestion].rightAnswerId) {
-      e.target.style.background = "#69B282";
-    } else {
-      e.target.style.background = "rgba(224, 60, 49, 0.8)";
-    }
+  const classes = useStyle();
+
+  const userAnswersHandler = (
+    event: React.MouseEvent<HTMLUListElement>,
+    answerId: Number
+  ) => {
+    setUserAnswers((prev) => [...prev, answerId]);
+
+    const target = event.currentTarget;
+
+    answerId === quiz[activeQuestion].rightAnswerId
+      ? target.classList.add(classes.success)
+      : target.classList.add(classes.error);
 
     const bgInterval: any = setInterval(() => {
-      e.target.style.background = "";
+      target.classList.remove(classes.success, classes.error);
 
-      setActiveQuestion((prev) => {
-        return prev + 1;
-      });
+      quiz[activeQuestion + 1]
+        ? setActiveQuestion((prev) => prev + 1)
+        : setIsFinished(true);
 
       return clearInterval(bgInterval);
-    }, 1500);
+    }, 500);
   };
 
   useEffect(() => {
-    setTitle(props.quiz[activeQuestion].title);
+    setTitle(quiz[activeQuestion].title);
   }, [activeQuestion]);
 
   return (
     <>
       <Question
         title={title}
-        answers={props.quiz[activeQuestion].answers}
+        answers={quiz[activeQuestion].answers}
         userAnswersHandler={userAnswersHandler}
         activeQuestion={activeQuestion}
-        questionsCount={props.quiz.length}
+        questionsCount={quiz.length}
       />
     </>
   );
