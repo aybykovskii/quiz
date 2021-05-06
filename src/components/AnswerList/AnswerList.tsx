@@ -1,6 +1,8 @@
-import React, { Key } from "react";
-import { IAnswer } from "src/ts";
-import { Answer } from "../";
+import React from "react";
+
+import { Answer } from "@components";
+
+import { IAnswer } from "@ts";
 import { useStyle } from "./style";
 
 type AnswerListProps = {

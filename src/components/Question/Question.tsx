@@ -1,6 +1,6 @@
 import React from "react";
-import { IAnswer } from "src/ts";
-import { AnswerList } from "../";
+import { AnswerList } from "@components";
+import { IAnswer } from "@ts";
 import { useStyle } from "./style";
 
 type QuestionProps = {
