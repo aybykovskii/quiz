@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Quiz } from "./containers";
-import { Button, Layout } from "./components";
+import { Layout } from "./components";
 import { IQuestion } from "./interfaces";
 
 export const App: React.FC = () => {
+  /*
+    NOTE: Array<T> = T[]                (это одно и то же, только второй вариант короче)
+          const quiz: IQuestion[] = []; (поэтому можешь сделать так)
+  */
   const quiz: Array<IQuestion> = [
     {
       title: "В каком году основали Санкт-Петербург?",
@@ -28,10 +32,6 @@ export const App: React.FC = () => {
       rightAnswerId: 2,
     },
   ];
-
-  const onClickHandler = () => {
-    console.log("button clicked");
-  };
 
   return (
     <Layout>
