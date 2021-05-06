@@ -8,7 +8,7 @@ import { useStyle } from "./style";
       {
         id: bumber;
         text: string; (где-то уже писал, что лучше это заменить на проп children)
-        userAnswersHandler: (e: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number)
+        userAnswersHandler: (e: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number) => void;
       }
 */
 export const Answer = (props: any) => {
