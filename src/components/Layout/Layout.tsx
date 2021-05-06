@@ -4,7 +4,7 @@ import { useStyle } from "./style";
 /*
   NOTE:
     Тут ты видимо не понял, как типизировать children и сделал так.
-      childre: React.ReactNode
+      children: React.ReactNode
     Но на самом деле, ты их можешь даже не указывать, если укажешь, что Layout: React.FC.
     Потому что по дефолту в пропсах React.FC есть проп children
 */
