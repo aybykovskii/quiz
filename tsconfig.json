@@ -15,7 +15,9 @@
       "@components": ["src/components/index"],
       "@components/*": ["src/components/*"],
       "@containers": ["src/containers/index"],
-      "@containers/*": ["src/containers/*"]
+      "@containers/*": ["src/containers/*"],
+      "@ts": ["src/ts/index"],
+      "@ts/*": ["src/ts/*"]
     }
   },
   "include": ["./src"]

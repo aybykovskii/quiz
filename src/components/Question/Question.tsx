@@ -1,20 +1,16 @@
 import React from "react";
-import { IAnswer } from "src/TS";
+import { IAnswer } from "src/ts";
 import { AnswerList } from "../";
 import { useStyle } from "./style";
 
-interface IQuestionProps {
+type QuestionProps = {
   title: string;
   answers: IAnswer[];
   activeQuestion: number;
   questionsCount: number;
-  userAnswersHandler: (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    id: number
-  ) => void;
-}
-
-export const Question: React.FC<IQuestionProps> = ({
+  userAnswersHandler: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number) => void;
+};
+export const Question: React.FC<QuestionProps> = ({
   title,
   activeQuestion,
   questionsCount,

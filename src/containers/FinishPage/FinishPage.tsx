@@ -2,14 +2,13 @@ import React from "react";
 
 import { Button } from "@components";
 
-import { IUserAnswer } from "src/TS";
+import { IUserAnswer } from "@ts";
 import { useStyle } from "./style";
 
-interface IFinishPageProps {
+type FinishPageProps = {
   userAnswers: Array<IUserAnswer>;
-}
-
-export const FinishPage: React.FC<IFinishPageProps> = ({ userAnswers }) => {
+};
+export const FinishPage: React.FC<FinishPageProps> = ({ userAnswers }) => {
   const classes = useStyle();
 
   const onClickHandler = () => {
@@ -22,11 +21,7 @@ export const FinishPage: React.FC<IFinishPageProps> = ({ userAnswers }) => {
       <h3>Ваши ответы:</h3>
 
       {userAnswers.map((answer, key) => {
-        return answer.isCorrect ? (
-          <p key={key}>{key + 1}. Правильно</p>
-        ) : (
-          <p key={key}>{key + 1}. Ошибка</p>
-        );
+        return answer.isCorrect ? <p key={key}>{key + 1}. Правильно</p> : <p key={key}>{key + 1}. Ошибка</p>;
       })}
       <div className={classes.buttonsWrapper}>
         <Button onClick={onClickHandler}>Повторить</Button>

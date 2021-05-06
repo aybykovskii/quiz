@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { FinishPage } from "@containers/FinishPage/FinishPage";
-import { Question } from "@components/index";
+import { FinishPage } from "@containers";
+import { Question } from "@components";
 
-import { IQuestion, IUserAnswer } from "src/TS";
+import { IQuestion, IUserAnswer } from "@ts";
 import { useStyle } from "./style";
 
 type QuizProps = {
   quiz: Array<IQuestion>;
 };
-
 export const Quiz: React.FC<QuizProps> = ({ quiz }) => {
   const [activeQuestion, setActiveQuestion] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<IUserAnswer[]>([]);
@@ -17,10 +16,7 @@ export const Quiz: React.FC<QuizProps> = ({ quiz }) => {
 
   const classes = useStyle();
 
-  const userAnswersHandler = (
-    event: React.MouseEvent<HTMLLIElement>,
-    answerId: number
-  ) => {
+  const userAnswersHandler = (event: React.MouseEvent<HTMLLIElement>, answerId: number) => {
     setUserAnswers((prev: IUserAnswer[]) => [
       ...prev,
       {
@@ -37,7 +33,7 @@ export const Quiz: React.FC<QuizProps> = ({ quiz }) => {
       target.classList.add(classes.error);
     }
 
-    const bgTimeout = (setTimeout(() => {
+    setTimeout(() => {
       target.classList.remove(classes.success, classes.error);
 
       if (quiz[activeQuestion + 1]) {
@@ -45,7 +41,7 @@ export const Quiz: React.FC<QuizProps> = ({ quiz }) => {
       } else {
         setIsFinished(true);
       }
-    }, 500) as any) as number;
+    }, 500);
   };
 
   return (

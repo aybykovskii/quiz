@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Quiz } from "./containers";
-import { Layout } from "./components";
-import { IQuestion } from "./TS";
+import { Layout } from "@components";
+import { Quiz } from "@containers";
+import { IQuestion } from "@ts";
 
 import { useGlobalStyles } from "./style";
 
