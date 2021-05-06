@@ -22,7 +22,7 @@ export const FinishPage: React.FC<IFinishPageProps> = ({ userAnswers }) => {
       <h3>Ваши ответы:</h3>
       {/*
         NOTE:
-          Смотри, тут в map не нужна типизация. У тебя массив userAnswers уже типизирован, поэтому ts сам поймёт какие типы будут в map.
+          Смотри, тут в map не нужна типизация. У тебя массив userAnswers уже типизирован, поэтому ts сам поймёт, какие типы будут в map.
             userAnswers.map((answer: IUserAnswer, key: number) ...)   =>   userAnswers.map((answer, key) ...)
       */}
       {userAnswers.map((answer: IUserAnswer, key: number) => {
