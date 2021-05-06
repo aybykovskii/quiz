@@ -8,7 +8,10 @@ type QuestionProps = {
   answers: IAnswer[];
   activeQuestion: number;
   questionsCount: number;
-  userAnswersHandler: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number) => void;
+  userAnswersHandler: (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    id: number
+  ) => void;
 };
 export const Question: React.FC<QuestionProps> = ({
   title,

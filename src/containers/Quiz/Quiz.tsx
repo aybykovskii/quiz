@@ -16,7 +16,10 @@ export const Quiz: React.FC<QuizProps> = ({ quiz }) => {
 
   const classes = useStyle();
 
-  const userAnswersHandler = (event: React.MouseEvent<HTMLLIElement>, answerId: number) => {
+  const userAnswersHandler = (
+    event: React.MouseEvent<HTMLLIElement>,
+    answerId: number
+  ) => {
     setUserAnswers((prev: IUserAnswer[]) => [
       ...prev,
       {
