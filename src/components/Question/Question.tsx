@@ -1,14 +1,17 @@
 import React from "react";
-import { IAnswer } from "src/interfaces";
+import { IAnswer } from "src/TS";
 import { AnswerList } from "../";
 import { useStyle } from "./style";
 
 interface IQuestionProps {
-  title: String;
-  answers: Array<IAnswer>;
+  title: string;
+  answers: IAnswer[];
   activeQuestion: number;
-  questionsCount: Number;
-  userAnswersHandler: Function;
+  questionsCount: number;
+  userAnswersHandler: (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    id: number
+  ) => void;
 }
 
 export const Question: React.FC<IQuestionProps> = ({

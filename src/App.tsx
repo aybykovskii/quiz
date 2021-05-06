@@ -2,14 +2,14 @@ import React from "react";
 
 import { Quiz } from "./containers";
 import { Layout } from "./components";
-import { IQuestion } from "./interfaces";
+import { IQuestion } from "./TS";
+
+import { useGlobalStyles } from "./style";
 
 export const App: React.FC = () => {
-  /*
-    NOTE: Array<T> = T[]                (это одно и то же, только второй вариант короче)
-          const quiz: IQuestion[] = []; (поэтому можешь сделать так)
-  */
-  const quiz: Array<IQuestion> = [
+  const globalStyles = useGlobalStyles();
+
+  const quiz: IQuestion[] = [
     {
       title: "В каком году основали Санкт-Петербург?",
       answers: [

@@ -1,21 +1,28 @@
 import React from "react";
 import { useStyle } from "./style";
 
-/*
-  NOTE:
-    Здесь, видимо, ты тоже не понял, как типизировать пропсы
-    Вот так:
-      {
-        id: bumber;
-        text: string; (где-то уже писал, что лучше это заменить на проп children)
-        userAnswersHandler: (e: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number) => void;
-      }
-*/
-export const Answer = (props: any) => {
+type IAnswerProps = {
+  id: number;
+  children: React.ReactNode;
+  userAnswersHandler: (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    id: number
+  ) => void;
+};
+
+export const Answer: React.FC<IAnswerProps> = ({
+  id,
+  children,
+  userAnswersHandler,
+}) => {
   const classes = useStyle();
   return (
-    <li className={classes.answerItem} id={props.id} onClick={(e) => props.userAnswersHandler(e, props.id)}>
-      {props.text}
+    <li
+      id={id.toString()}
+      className={classes.answerItem}
+      onClick={(event) => userAnswersHandler(event, id)}
+    >
+      {children}
     </li>
   );
 };
