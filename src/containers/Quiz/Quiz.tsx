@@ -47,11 +47,20 @@ export const Quiz: React.FC<QuizProps> = ({ quiz }) => {
     }, 500);
   };
 
+  const testRepeatHandler = () => {
+    setActiveQuestion(0);
+    setUserAnswers([]);
+    setIsFinished(false);
+  };
+
   return (
     <div className={classes.main}>
       <div className={classes.wrapper}>
         {isFinished ? (
-          <FinishPage userAnswers={userAnswers} />
+          <FinishPage
+            userAnswers={userAnswers}
+            testRepeatHandler={testRepeatHandler}
+          />
         ) : (
           <Question
             title={quiz[activeQuestion].title}

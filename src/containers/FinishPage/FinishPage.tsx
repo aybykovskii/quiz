@@ -7,8 +7,12 @@ import { useStyle } from "./style";
 
 type FinishPageProps = {
   userAnswers: Array<IUserAnswer>;
+  testRepeatHandler: () => void;
 };
-export const FinishPage: React.FC<FinishPageProps> = ({ userAnswers }) => {
+export const FinishPage: React.FC<FinishPageProps> = ({
+  userAnswers,
+  testRepeatHandler,
+}) => {
   const classes = useStyle();
 
   const onClickHandler = () => {
@@ -28,7 +32,7 @@ export const FinishPage: React.FC<FinishPageProps> = ({ userAnswers }) => {
         );
       })}
       <div className={classes.buttonsWrapper}>
-        <Button onClick={onClickHandler}>Повторить</Button>
+        <Button onClick={testRepeatHandler}>Повторить</Button>
         <Button onClick={onClickHandler}>Список тестов</Button>
       </div>
     </>
