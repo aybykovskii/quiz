@@ -2,7 +2,10 @@ import { makeStyles } from "@material-ui/styles";
 
 export const useStyle = makeStyles({
   input: {
-    marginLeft: "15px",
-    marginBottom: "20px",
+    margin: "15px",
+    border: "none",
+    borderRadius: "4px",
+    width: "200px",
+    height: "20px",
   },
 });

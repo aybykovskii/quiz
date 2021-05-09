@@ -7,9 +7,10 @@ export const useStyle = makeStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    background: "linear-gradient(90deg, #faf0cd, #fab397)",
   },
   wrapper: {
-    width: "auto",
+    width: "500px",
     height: "auto",
     padding: "20px",
     margin: "auto",
@@ -17,4 +18,15 @@ export const useStyle = makeStyles({
     border: "1px solid #000",
     borderRadius: "4px",
   },
+  ul: {
+    listStyle: "none",
+    padding: 0,
+  },
+  buttonWrapper: {
+    width: "400px",
+    display: "flex",
+    justifyContent: "space-between",
+    margin: "auto",
+  },
+  input: {},
 });

@@ -1,14 +1,23 @@
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 import { useStyle } from "./style";
 
 type ButtonProps = {
+  type?: "button" | "submit" | "reset" | undefined;
   children: React.ReactNode;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
-export const Button: React.FC<ButtonProps> = ({ children, onClick }) => {
+export const Button: React.FC<ButtonProps> = ({
+  type = "button",
+  children,
+  onClick,
+}) => {
   const classes = useStyle();
   return (
-    <button className={classes.button} onClick={onClick}>
+    <button
+      type={type}
+      className={classes.button}
+      onClick={(event) => onClick(event)}
+    >
       {children}
     </button>
   );
