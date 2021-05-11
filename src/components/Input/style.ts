@@ -7,5 +7,6 @@ export const useStyle = makeStyles({
     borderRadius: "4px",
     width: "200px",
     height: "20px",
+    padding: "5px 10px",
   },
 });

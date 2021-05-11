@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Button, Input } from "@components";
 import { useStyle } from "@containers/QuizCreator/style";
-import { IQuestion, IAnswer } from "@ts";
+import { IQuestion } from "@ts";
 
 export const QuizCreator: React.FC = () => {
   const classes = useStyle();
-  const [activeQuestion, setActiveQuestion] = useState<number>(0);
-  const [quiz, setQuiz] = useState<IQuestion[]>([]);
-  const [state, setState] = useState<IQuestion>({
+  const startQuestion: IQuestion = {
     title: "",
     answers: [
       { text: "", id: 1 },
@@ -16,7 +14,11 @@ export const QuizCreator: React.FC = () => {
       { text: "", id: 4 },
     ],
     rightAnswerId: 1,
-  });
+  };
+
+  const [quiz, setQuiz] = useState<IQuestion[]>([]);
+  const [state, setState] = useState<IQuestion>(startQuestion);
+
   const changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState((previous) => ({
       ...previous,
@@ -36,16 +38,7 @@ export const QuizCreator: React.FC = () => {
 
   const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     setQuiz((prev) => [...prev, state]);
-    setState({
-      title: "",
-      answers: [
-        { text: "", id: 1 },
-        { text: "", id: 2 },
-        { text: "", id: 3 },
-        { text: "", id: 4 },
-      ],
-      rightAnswerId: 1,
-    });
+    setState(startQuestion);
   };
 
   const onSubmitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
