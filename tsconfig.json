@@ -17,7 +17,9 @@
       "@containers": ["src/containers/index"],
       "@containers/*": ["src/containers/*"],
       "@ts": ["src/TS/index"],
-      "@ts/*": ["src/TS/*"]
+      "@ts/*": ["src/TS/*"],
+      "@axios": ["src/axios/axios-quiz"],
+      "@axios/*": ["src/axios/*"]
     }
   },
   "include": ["./src"]

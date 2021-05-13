@@ -28,5 +28,7 @@ export const useStyle = makeStyles({
     justifyContent: "space-between",
     margin: "auto",
   },
-  input: {},
+  error: {
+    border: "1px solid red",
+  },
 });

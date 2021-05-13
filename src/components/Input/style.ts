@@ -6,7 +6,12 @@ export const useStyle = makeStyles({
     border: "none",
     borderRadius: "4px",
     width: "200px",
-    height: "20px",
+    height: "auto",
     padding: "5px 10px",
+    boxSizing: "border-box",
+    "&:focus": {
+      border: "none",
+      outline: "none",
+    },
   },
 });

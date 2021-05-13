@@ -2,11 +2,11 @@ import React from "react";
 
 import { Button } from "@components";
 
-import { IUserAnswer } from "@ts";
+import { IResult, IUserAnswer } from "@ts";
 import { useStyle } from "./style";
 
 type FinishPageProps = {
-  userAnswers: Array<IUserAnswer>;
+  userAnswers: Array<IResult>;
   testRepeatHandler: () => void;
 };
 export const FinishPage: React.FC<FinishPageProps> = ({
