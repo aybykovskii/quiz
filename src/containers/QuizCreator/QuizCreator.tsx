@@ -1,104 +1,186 @@
 import React, { useState } from "react";
-import { Button, Input } from "@components";
-import { useStyle } from "@containers/QuizCreator/style";
-import { IQuestion } from "@ts";
+
+import { Button, Input, Select } from "@components";
+import { IQuestion, IValidControl } from "@ts";
+import { createControl, validate, validateForm } from "@controller";
 import axios from "../../axios/axios-quiz";
 
+import { useStyle } from "@containers/QuizCreator/style";
+
+const createOptionControl = (number: number) => {
+  return createControl(
+    {
+      label: `Вариант ${number}`,
+      errorMessage: "Значение не может быть пустым",
+      id: number,
+    },
+    { required: true }
+  );
+};
+
+const createFormControls = () => {
+  return {
+    question: createControl(
+      {
+        label: "Введите вопрос",
+        errorMessage: "Вопрос не может быть пустым",
+      },
+      { required: true }
+    ),
+    option1: createOptionControl(1),
+    option2: createOptionControl(2),
+    option3: createOptionControl(3),
+    option4: createOptionControl(4),
+  };
+};
+
+type State = {
+  quiz: IQuestion[];
+  isFormValid: boolean;
+  rightAnswerId: number;
+  formControls: ReturnType<typeof createFormControls>;
+};
+
 export const QuizCreator: React.FC = () => {
-  // const classes = useStyle();
-  // const startQuestion: IQuestion = {
-  //   title: "",
-  //   answers: [
-  //     { text: "", id: 1 },
-  //     { text: "", id: 2 },
-  //     { text: "", id: 3 },
-  //     { text: "", id: 4 },
-  //   ],
-  //   rightAnswerId: 1,
-  // };
+  const [state, setState] = useState<State>({
+    quiz: [],
+    isFormValid: false,
+    rightAnswerId: 1,
+    formControls: createFormControls(),
+  });
 
-  // const [quiz, setQuiz] = useState<IQuestion[]>([]);
-  // const [state, setState] = useState<IQuestion>(startQuestion);
+  const ChangeInputHandler = (value: string, controlName: any) => {
+    const formControls = { ...state.formControls };
+    const control = { ...controlName[1] };
 
-  // const changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setState((previous) => ({
-  //     ...previous,
-  //     title: event.target.value,
-  //     isTitleValid: event.target.value == "" ? false : true,
-  //   }));
-  // };
+    Object.entries(formControls).map((element) => {
+      if (element[1].id == control.id) {
+        element[1].touched = true;
+        element[1].value = value;
+        element[1].isValid = validate(element[1].value, element[1].validation);
+      }
+    });
 
-  // const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setState((prev) => ({
-  //     ...prev,
-  //     answers: [
-  //       ...prev.answers,
-  //       ((prev.answers[+event.target.id - 1].text = event.target.value),
-  //       (prev.answers[+event.target.id - 1].isValid =
-  //         event.target.value === "" ? false : true)),
-  //     ].slice(0, 4),
-  //   }));
-  // };
+    setState((prev) => {
+      return {
+        ...prev,
+        formControls,
+        isFormValid: validateForm(formControls),
+      };
+    });
+  };
 
-  // const clickInputHandler = (event: React.MouseEvent<HTMLInputElement>) => {
-  //   if (!state.answers[+event.currentTarget.id].isValid) {
-  //     event.currentTarget.classList.add(classes.error);
-  //   } else {
-  //     event.currentTarget.classList.remove(classes.error);
-  //   }
-  // };
+  const renderInputs = () => {
+    return Object.entries(state.formControls).map((controlName, index) => {
+      const control: IValidControl = controlName[1];
 
-  // const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setQuiz((prev) => [...prev, state]);
-  //   setState(startQuestion);
-  // };
+      return (
+        <React.Fragment key={controlName + index.toString()}>
+          <Input
+            label={control.label}
+            value={control.value}
+            isValid={control.isValid}
+            shouldValidate={!!control.validation}
+            touched={control.touched}
+            errorMessage={control.errorMessage}
+            onChange={(event) =>
+              ChangeInputHandler(event.currentTarget.value, controlName)
+            }
+          />
+        </React.Fragment>
+      );
+    });
+  };
 
-  // const onSubmitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  //   if (state.isTitleValid) {
-  //     setQuiz((prev) => [...prev, state]);
-  //     setState(startQuestion);
-  //   }
+  const selectChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const target = event.currentTarget;
+    setState((prev) => {
+      return {
+        ...prev,
+        rightAnswerId: +target.value,
+      };
+    });
+  };
 
-  //   axios
-  //     .post(`/quizes/.json`, quiz)
-  //     .then((response) => console.log(response.status, response.data))
-  //     .catch((e) => console.log(e));
-  // };
+  const onNextQuestionHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
 
-  // return (
-  //   <div className={classes.page}>
-  //     <form className={classes.wrapper}>
-  //       <h1>Заполните все поля</h1>
-  //       <Input
-  //         labelText="Вопрос"
-  //         value={state.title}
-  //         onChange={(event) => changeTitleHandler(event)}
-  //       />
-  //       <hr />
+    const quiz = state.quiz.concat();
+    const index = quiz.length + 1;
 
-  //       {state.answers.map((answer, index) => {
-  //         return (
-  //           <Input
-  //             key={index}
-  //             id={index + 1}
-  //             labelText={`Ответ №${index + 1}`}
-  //             value={answer.text}
-  //             onChange={(event) => changeInputHandler(event)}
-  //           />
-  //         );
-  //       })}
-  //       <hr />
-  //       <div className={classes.buttonWrapper}>
-  //         <Button onClick={(event) => onClickHandler(event)}>
-  //           Следующий вопрос
-  //         </Button>
-  //         <Button type="submit" onClick={(event) => onSubmitHandler(event)}>
-  //           Закончить тест
-  //         </Button>
-  //       </div>
-  //     </form>
-  //   </div>
-  // );
-  return <h1>Quiz creator page</h1>;
+    const { question, option1, option2, option3, option4 } = state.formControls;
+
+    const questionItem: IQuestion = {
+      title: question.value,
+      rightAnswerId: state.rightAnswerId,
+      answers: [
+        { text: option1.value, id: option1.id! },
+        { text: option2.value, id: option2.id! },
+        { text: option3.value, id: option3.id! },
+        { text: option4.value, id: option4.id! },
+      ],
+    };
+
+    quiz.push(questionItem);
+
+    setState({
+      quiz,
+      isFormValid: false,
+      rightAnswerId: 1,
+      formControls: createFormControls(),
+    });
+    console.log(state.quiz);
+  };
+  const onCompleteQuizHandler = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+
+    try {
+      await axios.post("/quizes.json", state.quiz);
+
+      setState({
+        quiz: [],
+        isFormValid: false,
+        rightAnswerId: 1,
+        formControls: createFormControls(),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
+  return (
+    <div>
+      <form onSubmit={(event) => onSubmit(event)}>
+        {renderInputs()}
+
+        <Select
+          label="Выберите правильный ответ"
+          value={state.rightAnswerId}
+          onChange={selectChangeHandler}
+          options={[
+            { text: 1, value: 1 },
+            { text: 2, value: 2 },
+            { text: 3, value: 3 },
+            { text: 4, value: 4 },
+          ]}
+        />
+        <Button onClick={onNextQuestionHandler} disabled={!state.isFormValid}>
+          Следующий вопрос
+        </Button>
+        <Button
+          onClick={onCompleteQuizHandler}
+          disabled={state.quiz.length == 0}
+        >
+          Закончить тест
+        </Button>
+      </form>
+    </div>
+  );
 };

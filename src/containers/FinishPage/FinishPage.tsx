@@ -2,16 +2,19 @@ import React from "react";
 
 import { Button } from "@components";
 
-import { IResult, IUserAnswer } from "@ts";
+import { IResult } from "@ts";
 import { useStyle } from "./style";
+import { Link } from "react-router-dom";
 
 type FinishPageProps = {
   userAnswers: Array<IResult>;
   testRepeatHandler: () => void;
+  quizListHandler: () => void;
 };
 export const FinishPage: React.FC<FinishPageProps> = ({
   userAnswers,
   testRepeatHandler,
+  quizListHandler,
 }) => {
   const classes = useStyle();
 
@@ -33,7 +36,9 @@ export const FinishPage: React.FC<FinishPageProps> = ({
       })}
       <div className={classes.buttonsWrapper}>
         <Button onClick={testRepeatHandler}>Повторить</Button>
-        <Button onClick={onClickHandler}>Список тестов</Button>
+        <Link to="/">
+          <Button onClick={quizListHandler}>Список тестов</Button>
+        </Link>
       </div>
     </>
   );

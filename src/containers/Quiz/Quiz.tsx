@@ -99,6 +99,8 @@ export const Quiz: React.FC<QuizProps> = (props) => {
     });
   };
 
+  const quizListHandler = () => {};
+
   return (
     <div className={classes.main}>
       <div className={classes.wrapper}>
@@ -108,6 +110,7 @@ export const Quiz: React.FC<QuizProps> = (props) => {
           <FinishPage
             userAnswers={quiz.results}
             testRepeatHandler={testRepeatHandler}
+            quizListHandler={quizListHandler}
           />
         ) : (
           <Question

@@ -25,9 +25,9 @@ export const useStyle = makeStyles({
     alignItems: "center",
   },
   success: {
-    backgroundColor: "#69B282",
+    borderColor: "#69B282",
   },
   error: {
-    backgroundColor: "rgba(224, 60, 49, 0.8)",
+    borderColor: "rgba(224, 60, 49, 0.8)",
   },
 });

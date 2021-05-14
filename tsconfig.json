@@ -19,7 +19,9 @@
       "@ts": ["src/TS/index"],
       "@ts/*": ["src/TS/*"],
       "@axios": ["src/axios/axios-quiz"],
-      "@axios/*": ["src/axios/*"]
+      "@axios/*": ["src/axios/*"],
+      "@controller": ["src/controller/formFramework"],
+      "@controller/*": ["src/controller/*"]
     }
   },
   "include": ["./src"]

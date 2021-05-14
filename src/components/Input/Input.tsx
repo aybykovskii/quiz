@@ -2,38 +2,59 @@ import React from "react";
 import { useStyle } from "./style";
 
 type InputProps = {
-  labelText: string;
-  id?: string | number;
+  label: string;
+  value: string;
   type?: string;
-  value?: string;
-  onClick?: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
+  isValid: boolean;
+  shouldValidate: boolean;
+  errorMessage: string;
+  touched: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Input: React.FC<InputProps> = ({
-  labelText,
-  id,
-  type,
+  label,
   value,
-  onClick,
+  type = "text",
+  isValid,
+  shouldValidate,
+  errorMessage,
+  touched,
   onChange,
 }) => {
-  const classes = useStyle();
+  const isInvalid = (
+    isValid: boolean,
+    shouldValidate: boolean,
+    touched: boolean
+  ) => {
+    return !isValid && shouldValidate && touched;
+  };
 
+  const classes = useStyle();
+  const styles = [classes.label];
+
+  if (isInvalid(isValid, shouldValidate, touched)) {
+    styles.push(classes.invalid);
+  }
+
+  const id = type + Math.random().toString();
   return (
-    <div>
-      <label htmlFor={typeof id == "number" ? id.toString() : id}>
-        {labelText}
+    <div className={classes.Input}>
+      <label className={styles.join(" ")} htmlFor={id}>
+        {label}
       </label>
       <input
         className={classes.input}
-        id={typeof id == "number" ? id.toString() : id}
-        type={type ? type : "text"}
+        id={id}
+        type={type}
         value={value}
-        placeholder="Заполните поле"
-        onClick={onClick}
         onChange={onChange}
       />
+      {isInvalid(isValid, shouldValidate, touched) ? (
+        <span className={classes.span}>
+          {errorMessage ? errorMessage : "Заполните это поле"}
+        </span>
+      ) : null}
     </div>
   );
 };

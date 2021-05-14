@@ -21,6 +21,7 @@ module.exports = {
       "@containers": path.resolve(__dirname, "src/containers"),
       "@ts": path.resolve(__dirname, "src/TS"),
       "@axios": path.resolve(__dirname, "src/axios"),
+      "@controller": path.resolve(__dirname, "src/controller"),
     },
   },
 
