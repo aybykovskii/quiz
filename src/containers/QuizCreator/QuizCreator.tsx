@@ -131,7 +131,6 @@ export const QuizCreator: React.FC = () => {
       rightAnswerId: 1,
       formControls: createFormControls(),
     });
-    console.log(state.quiz);
   };
   const onCompleteQuizHandler = async (
     event: React.MouseEvent<HTMLButtonElement>
