@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React from "react";
 import { useStyle } from "./style";
 
 type ButtonProps = {

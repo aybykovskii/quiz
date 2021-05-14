@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Layout, Loader } from "@components";
+import { Layout } from "@components";
 import { Quiz, QuizCreator } from "@containers";
 
 import { useGlobalStyles } from "./style";

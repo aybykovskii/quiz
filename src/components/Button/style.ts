@@ -14,11 +14,18 @@ export const useStyle = makeStyles({
     border: "none",
     borderRadius: "4px",
     fontWeight: "normal",
+    boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
     "&:hover": {
-      backgroundColor: "#9AE8ED",
+      backgroundColor: "#FAD5B5",
+      boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.25)",
     },
     "&:active": {
-      backgroundColor: "#26BFBF",
+      backgroundColor: "#FAB397",
+      boxShadow: "none",
+    },
+    "&:disabled": {
+      backgroundColor: "#fff",
+      cursor: "auto",
     },
   },
 });

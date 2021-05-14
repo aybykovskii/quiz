@@ -42,6 +42,7 @@ type State = {
 };
 
 export const QuizCreator: React.FC = () => {
+  const classes = useStyle();
   const [state, setState] = useState<State>({
     quiz: [],
     isFormValid: false,
@@ -49,6 +50,7 @@ export const QuizCreator: React.FC = () => {
     formControls: createFormControls(),
   });
 
+  //Изменение state при изменении value у input
   const ChangeInputHandler = (value: string, controlName: any) => {
     const formControls = { ...state.formControls };
     const control = { ...controlName[1] };
@@ -69,7 +71,7 @@ export const QuizCreator: React.FC = () => {
       };
     });
   };
-
+  //Рендеринг Input с параметрами
   const renderInputs = () => {
     return Object.entries(state.formControls).map((controlName, index) => {
       const control: IValidControl = controlName[1];
@@ -87,6 +89,7 @@ export const QuizCreator: React.FC = () => {
               ChangeInputHandler(event.currentTarget.value, controlName)
             }
           />
+          {index == 0 ? <hr /> : null}
         </React.Fragment>
       );
     });
@@ -155,8 +158,8 @@ export const QuizCreator: React.FC = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={(event) => onSubmit(event)}>
+    <div className={classes.page}>
+      <form className={classes.wrapper} onSubmit={(event) => onSubmit(event)}>
         {renderInputs()}
 
         <Select
@@ -170,15 +173,17 @@ export const QuizCreator: React.FC = () => {
             { text: 4, value: 4 },
           ]}
         />
-        <Button onClick={onNextQuestionHandler} disabled={!state.isFormValid}>
-          Следующий вопрос
-        </Button>
-        <Button
-          onClick={onCompleteQuizHandler}
-          disabled={state.quiz.length == 0}
-        >
-          Закончить тест
-        </Button>
+        <div className={classes.buttonWrapper}>
+          <Button onClick={onNextQuestionHandler} disabled={!state.isFormValid}>
+            Следующий вопрос
+          </Button>
+          <Button
+            onClick={onCompleteQuizHandler}
+            disabled={state.quiz.length == 0}
+          >
+            Закончить тест
+          </Button>
+        </div>
       </form>
     </div>
   );

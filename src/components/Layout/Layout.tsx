@@ -1,3 +1,4 @@
+import { NavBar } from "@containers";
 import React from "react";
 import { useStyle } from "./style";
 
@@ -6,5 +7,10 @@ type LayoutProps = {
 };
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const classes = useStyle();
-  return <div className={classes.layout}>{children}</div>;
+  return (
+    <div className={classes.layout}>
+      <NavBar />
+      {children}
+    </div>
+  );
 };

@@ -12,23 +12,22 @@ export const useStyle = makeStyles({
   wrapper: {
     width: "500px",
     height: "auto",
-    padding: "20px",
+    padding: "20px 50px",
     margin: "auto",
+    marginTop: "70px",
     boxSizing: "border-box",
-    border: "1px solid #000",
     borderRadius: "4px",
+    backgroundColor: "white",
+    boxShadow: "4px 4px 5px rgba(0, 0, 0, 0.25);",
   },
-  ul: {
-    listStyle: "none",
-    padding: 0,
-  },
+
   buttonWrapper: {
     width: "400px",
     display: "flex",
     justifyContent: "space-between",
     margin: "auto",
   },
-  error: {
-    border: "1px solid red",
+  input: {
+    borderRadius: "4px",
   },
 });

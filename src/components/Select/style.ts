@@ -6,7 +6,7 @@ export const useStyle = makeStyles({
   },
 
   label: {
-    margin: "0 0 3px 0",
+    margin: "0 0 5px 0",
     padding: "0",
     fontWeight: "bold",
     display: "block",
@@ -15,11 +15,12 @@ export const useStyle = makeStyles({
   select: {
     display: "block",
     boxSizing: "border-box",
-    border: "1px solid #bebebe",
+    border: "1px solid #7A97FE",
     margin: "0 0 5px",
     height: "29px",
     width: "100%",
     outline: "none",
     transition: "all 300ms ease-in-out",
+    borderRadius: "4px",
   },
 });
