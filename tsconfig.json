@@ -1,28 +1,28 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "jsx": "react",
-    "sourceMap": true,
-    "baseUrl": "./",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@components": ["src/components/index"],
-      "@components/*": ["src/components/*"],
-      "@containers": ["src/containers/index"],
-      "@containers/*": ["src/containers/*"],
-      "@ts": ["src/TS/index"],
-      "@ts/*": ["src/TS/*"],
-      "@axios": ["src/axios/axios-quiz"],
-      "@axios/*": ["src/axios/*"],
-      "@controller": ["src/controller/formFramework"],
-      "@controller/*": ["src/controller/*"]
-    }
-  },
-  "include": ["./src"]
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"jsx": "react",
+		"sourceMap": true,
+		"baseUrl": "./",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"paths": {
+			"@components": ["src/components/index"],
+			"@components/*": ["src/components/*"],
+			"@containers": ["src/containers/index"],
+			"@containers/*": ["src/containers/*"],
+			"@ts": ["src/ts/index"],
+			"@ts/*": ["src/ts/*"],
+			"@axios": ["src/axios/axios-quiz"],
+			"@axios/*": ["src/axios/*"],
+			"@utils": ["src/utils/"],
+			"@utils/*": ["src/utils/*"]
+		}
+	},
+	"include": ["./src"]
 }
