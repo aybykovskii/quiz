@@ -33,7 +33,7 @@ module.exports = {
 		contentBase: "./src",
 		watchContentBase: true,
 		historyApiFallback: true,
-		proxy: { "/**": { target: "http://localhost:3000", secure: false } },
+		proxy: { "/api/**": { target: "http://localhost:3000", secure: false } },
 	},
 
 	plugins: [
