@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import axios from "axios"
 
 import { Loader } from "@components"
@@ -31,9 +31,9 @@ export const QuizList: React.FC = () => {
 			<h1 className={classes.title}>Список доступных тестов</h1>
 			{quizes.map((element, index) => {
 				return (
-					<NavLink className={classes.test} key={index} to={`/${element.id}`}>
+					<Link className={classes.test} key={index} to={`/quiz_list/${element.id}`}>
 						{element.name}
-					</NavLink>
+					</Link>
 				)
 			})}
 		</div>

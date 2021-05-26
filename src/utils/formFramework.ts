@@ -21,6 +21,10 @@ export function validate(value: string, validation: IValidation | null) {
 		isValid = value.trim() !== "" && isValid
 	}
 
+	if (validation.minLength) {
+		isValid = value.trim().length >= validation.minLength && isValid
+	}
+
 	return isValid
 }
 

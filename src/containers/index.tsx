@@ -1,5 +1,7 @@
 export { Quiz } from "./Quiz/Quiz"
 export { FinishPage } from "./FinishPage/FinishPage"
 export { QuizCreator } from "./QuizCreator/QuizCreator"
-export { NavBar } from "./NavBar/NavBar"
+export { NavBar } from "../components/NavBar/NavBar"
 export { QuizList } from "./QuizList/QuizList"
+export { SignIn } from "./Auth/SignIn"
+export { SignUp } from "./Auth/SignUp"

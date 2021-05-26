@@ -1,3 +1,4 @@
 export interface IValidation {
-  required?: boolean;
+	required?: boolean
+	minLength?: number
 }

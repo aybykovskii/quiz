@@ -18,9 +18,12 @@ module.exports = async (req: Request, res: Response) => {
 		})
 	} else {
 		const token = jwt.sign({ id: user._id }, secret, { expiresIn: "24h" })
-		res.send({
-			email: email,
-			token: `Bearer ${token}`,
-		})
+		res
+			.status(200)
+			.json({
+				email: email,
+				token: `Bearer ${token}`,
+			})
+			.redirect("/quiz_list")
 	}
 }

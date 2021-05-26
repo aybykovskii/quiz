@@ -13,12 +13,14 @@ module.exports = async (req: Request, res: Response) => {
 	} else {
 		const user = await User.findOne({ email: email })
 		if (!user) {
-			const candidate = await User.create({
+			await User.create({
 				email,
 				password: md5(password),
 				created_at: Date.now(),
 			})
-			res.send(candidate)
+			res.status(200).json({
+				message: "success",
+			})
 		} else {
 			res.send({
 				error: "user already exists",
