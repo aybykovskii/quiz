@@ -9,18 +9,18 @@ module.exports = async (req: Request, res: Response) => {
 	const { email, password }: TSingUpInput = req.body
 	const user = await User.findOne({ email: email })
 	if (!user) {
-		res.send({
-			error: "user undefind",
+		res.json({
+			error: "user undefined",
 		})
 	} else if (user.password !== md5(password)) {
-		res.send({
+		res.json({
 			error: "invalid password",
 		})
 	} else {
 		const token = jwt.sign({ id: user._id }, secret, { expiresIn: "24h" })
 		res.status(200).json({
 			email: email,
-			token,
+			token: `Bearer ${token}`,
 		})
 	}
 }
