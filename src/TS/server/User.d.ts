@@ -1,5 +1,5 @@
-export interface IUser {
-  email: string;
-  password: string;
-  created_at: number;
+export type IUser = {
+	email: string
+	password: string
+	created_at: string
 }

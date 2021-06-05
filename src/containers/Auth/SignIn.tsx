@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react"
-import { createAuthFormControls, validate, validateEmail, validateForm } from "@utils"
-import { useStyle } from "./style"
-import { Button, Input } from "@components"
 import { NavLink } from "react-router-dom"
 import axios from "axios"
+
+import { createAuthFormControls, validate, validateEmail, validateForm } from "@utils"
+import { Button, Input } from "@components"
 import { AuthContext } from "../../contexts/authContext"
 import { TSignIn } from "@ts/server"
+
+import { useStyle } from "./style"
 
 type TState = {
 	isFormValid: boolean
