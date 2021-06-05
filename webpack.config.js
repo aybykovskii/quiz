@@ -1,6 +1,6 @@
 const webpack = require("webpack")
 const path = require("path")
-
+require("dotenv").config()
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 
@@ -28,12 +28,12 @@ module.exports = {
 
 	devtool: "source-map",
 	devServer: {
-		port: 4000,
+		port: process.env.PUBLIC_PORT,
 		hot: true,
 		contentBase: "./src",
 		watchContentBase: true,
 		historyApiFallback: true,
-		proxy: { "/api/**": { target: "http://localhost:3000", secure: false } },
+		proxy: { "/api/**": { target: `http://localhost:${process.env.SERVER_PORT}`, secure: false } },
 	},
 
 	plugins: [

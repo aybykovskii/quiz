@@ -5,14 +5,14 @@ import cors from "cors"
 const quiz = require("./routes/Quiz.ts")
 const auth = require("./routes/auth/Auth")
 const app = express()
-
+require("dotenv").config()
 const mongoURL =
 	"mongodb+srv://admin:admin@cluster0.v5yom.mongodb.net/quiz?retryWrites=true&w=majority"
-const PORT = 3000
+const PORT = process.env.SERVER_PORT || 3000
 
 app.use(
 	cors({
-		origin: ["http://localhost: 4000"],
+		origin: [`http://localhost:${process.env.PUBLIC_PORT}`],
 		optionsSuccessStatus: 200,
 	})
 )
