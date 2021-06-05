@@ -3,13 +3,13 @@ import { Switch, Route, Redirect } from "react-router-dom"
 import { Quiz, QuizCreator, QuizList, SignIn, SignUp } from "@containers"
 import { Layout } from "@components"
 import { useGlobalStyles } from "./style"
-import { AuthContext } from "./contexts/authContext"
+import { AuthContextProvider } from "./contexts/authContext"
 
 export const App: React.FC = () => {
 	const globalStyles = useGlobalStyles()
 
 	return (
-		<AuthContext.Provider value="">
+		<AuthContextProvider>
 			<Layout>
 				<Switch>
 					<Route exact path="/" component={QuizList} />
@@ -20,6 +20,6 @@ export const App: React.FC = () => {
 					<Redirect to="/" />
 				</Switch>
 			</Layout>
-		</AuthContext.Provider>
+		</AuthContextProvider>
 	)
 }
