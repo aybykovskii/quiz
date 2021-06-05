@@ -1,6 +1,0 @@
-export { IQuiz } from "./Quiz"
-export { IAnswerList } from "./AnswerList"
-export { IQuizes } from "./Quizes"
-export { IUser } from "./User"
-export { TSingUpInput, TSignUpResponse } from "./requests/SignUp"
-export { IAnswer } from "./Answer"
