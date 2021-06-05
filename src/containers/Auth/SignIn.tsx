@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { createAuthFormControls, validate, validateEmail, validateForm } from "@utils"
 import { useStyle } from "./style"
 import { Button, Input } from "@components"
 import { NavLink } from "react-router-dom"
 import axios from "axios"
+import { AuthContext } from "src/contexts/authContext"
 
 type TState = {
 	isFormValid: boolean
@@ -17,6 +18,7 @@ export const SignIn: React.FC = () => {
 		formControls: createAuthFormControls(),
 	}
 	const [state, setState] = useState<TState>(initialState)
+	const token = useContext(AuthContext)
 
 	const changeInputHandler = (value: string, controlName: any) => {
 		Object.values(state.formControls).map(element => {

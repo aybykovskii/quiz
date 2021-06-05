@@ -7,7 +7,7 @@ export const NavBar: React.FC = () => {
 	return (
 		<div className={classes.navBar}>
 			<div className={classes.wrapper}>
-				<NavLink className={classes.link} to="/quiz_list">
+				<NavLink className={classes.link} to="/">
 					Главная
 				</NavLink>
 				<NavLink className={classes.link} to="/quiz_creator">
