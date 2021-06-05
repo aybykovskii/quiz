@@ -4,7 +4,8 @@ import { useStyle } from "./style"
 import { Button, Input } from "@components"
 import { NavLink } from "react-router-dom"
 import axios from "axios"
-import { AuthContext } from "src/contexts/authContext"
+import { AuthContext } from "../../contexts/authContext"
+import { TSignIn } from "@ts/server"
 
 type TState = {
 	isFormValid: boolean
@@ -18,7 +19,7 @@ export const SignIn: React.FC = () => {
 		formControls: createAuthFormControls(),
 	}
 	const [state, setState] = useState<TState>(initialState)
-	const token = useContext(AuthContext)
+	const { token, checkAndSetToken } = useContext(AuthContext)
 
 	const changeInputHandler = (value: string, controlName: any) => {
 		Object.values(state.formControls).map(element => {
@@ -64,10 +65,8 @@ export const SignIn: React.FC = () => {
 			password: state.formControls.password.value,
 		}
 		try {
-			const res = await axios.post("/api/auth/login", authData)
-			if (res.status == 200) {
-				console.log(res.data)
-			}
+			const data: TSignIn = await axios.post("/api/auth/login", authData).then(res => res.data)
+			checkAndSetToken(data.token)
 		} catch (e) {
 			console.log(e)
 		}
