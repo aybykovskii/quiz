@@ -21,7 +21,7 @@ export const SignIn: React.FC = () => {
 		formControls: createAuthFormControls(),
 	}
 	const [state, setState] = useState<TState>(initialState)
-	const { token, checkAndSetToken } = useContext(AuthContext)
+	const { setIsAuth, setTokenToLS } = useContext(AuthContext)
 
 	const changeInputHandler = (value: string, controlName: any) => {
 		Object.values(state.formControls).map(element => {
@@ -68,7 +68,8 @@ export const SignIn: React.FC = () => {
 		}
 		try {
 			const data: TSignIn = await axios.post("/api/auth/login", authData).then(res => res.data)
-			checkAndSetToken(data.token)
+			setTokenToLS(data.token)
+			setIsAuth(true)
 		} catch (e) {
 			console.log(e)
 		}
