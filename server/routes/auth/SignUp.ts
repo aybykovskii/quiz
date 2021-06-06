@@ -1,11 +1,11 @@
 import { Response, Request } from "express"
 import { User } from "../../models"
-import { TSingUpInput } from "../../../src/ts/server"
+import { TSignUpInput } from "../../../src/ts/server"
 import { validateEmail } from "../../../src/utils"
 import md5 from "md5"
 
-module.exports = async (req: Request, res: Response) => {
-	const { email, password }: TSingUpInput = req.body
+export const signUp = async (req: Request, res: Response) => {
+	const { email, password }: TSignUpInput = req.body
 	if (!email || !password || !validateEmail(email)) {
 		res.json({
 			error: "invalid params",

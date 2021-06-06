@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
-import { secret } from "../../src/utils"
-module.exports = function (req: Request, res: Response, next: NextFunction) {
+import { config } from "dotenv"
+config()
+export const tokenMiddleware = (req: Request, res: Response, next: NextFunction) => {
 	const bearerToken = req.headers.authorization
 	try {
 		if (!bearerToken) {
 			return res.send({
-				error: "token is undefind",
+				error: "token is undefined",
 			})
 		} else {
 			const token = bearerToken.split(" ")[1]
-			const reqUser = jwt.verify(token, secret)
+			const reqUser = jwt.verify(token, process.env.SECRET_KEY!)
 			return next()
 		}
 	} catch (e) {

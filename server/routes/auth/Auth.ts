@@ -1,11 +1,11 @@
-import { Router } from "express";
-const SignUp = require("./SignUp");
-const SignIn = require("./SignIn");
-const SignOut = require("./SignOut");
-const auth = Router();
+import { Router } from "express"
+import { signUp } from "./SignUp"
+import { signIn } from "./SignIn"
+import { signOut } from "./SignOut"
+const auth = Router()
 
-auth.post("/register", SignUp);
-auth.post("/login", SignIn);
-auth.post("/logout", SignOut);
+auth.post("/register", signUp)
+auth.post("/login", signIn)
+auth.post("/logout", signOut)
 
-module.exports = auth;
+export default auth

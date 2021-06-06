@@ -1,13 +1,15 @@
 import express from "express"
+import { config } from "dotenv"
 import mongoose from "mongoose"
 import bodyParser from "body-parser"
 import cors from "cors"
-const quiz = require("./routes/Quiz.ts")
-const auth = require("./routes/auth/Auth")
+import quiz from "./routes/Quiz"
+import auth from "./routes/auth/Auth"
+config()
+
 const app = express()
-require("dotenv").config()
-const mongoURL =
-	"mongodb+srv://admin:admin@cluster0.v5yom.mongodb.net/quiz?retryWrites=true&w=majority"
+
+const mongoURL = process.env.MONGO_URL || ""
 const PORT = process.env.SERVER_PORT || 3000
 
 app.use(
@@ -29,13 +31,7 @@ mongoose.connection
 		throw new Error("error connecting to mongodb: " + error)
 	})
 
-//body parser
-app.use(bodyParser.json())
-app.use(
-	bodyParser.urlencoded({
-		extended: false,
-	})
-)
+app.use(express.json())
 
 app.use("/api/quizes", quiz)
 app.use("/api/auth", auth)
@@ -43,3 +39,11 @@ app.use("/api/auth", auth)
 app.listen(PORT, () => {
 	console.log(`server started on port ${PORT}`)
 })
+
+// body parser
+// app.use(bodyParser.json())
+// app.use(
+// 	bodyParser.urlencoded({
+// 		extended: false,
+// 	})
+// )

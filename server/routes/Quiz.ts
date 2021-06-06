@@ -1,9 +1,9 @@
-import express from "express"
+import { Router } from "express"
 import mongoose from "mongoose"
 import { IQuiz } from "../../src/ts/server"
 import { AnswerList, Quiz, Quizes } from "../models"
-const tokenMiddleware = require("../middlewares/tokenMiddleware")
-const router = express.Router()
+import { tokenMiddleware } from "../middlewares/tokenMiddleware"
+const router = Router()
 
 router.get("/", async (req, res) => {
 	const quizesId: string[] = []
@@ -13,13 +13,9 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-	const quizesArray = await Quizes.findById(req.params.id)
-	if (!quizesArray) {
-		res.send({
-			errorMessage: "Теста с таким id не существует",
-		})
-	} else {
-		const quizes = quizesArray.quizes
+	try {
+		const quizesArray = await Quizes.findById(req.params.id)
+		const quizes = quizesArray!.quizes
 		const resQuizes: IQuiz[] = []
 		for (let i = 0; i < quizes.length; i++) {
 			const quiz = await Quiz.findById(quizes[i])
@@ -31,6 +27,10 @@ router.get("/:id", async (req, res) => {
 			})
 		}
 		res.send(resQuizes)
+	} catch (error) {
+		res.json({
+			message: `Test with id ${req.params.id} undefined`,
+		})
 	}
 })
 
@@ -79,10 +79,9 @@ router.delete("/:id", tokenMiddleware, async (req, res) => {
 		}
 	}
 	await Quizes.findByIdAndRemove(id)
-	// res.redirect("/")
 	res.status(200).json({
 		message: "quiz was removed",
 	})
 })
 
-module.exports = router
+export default router

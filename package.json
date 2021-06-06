@@ -77,7 +77,7 @@
 		"type": "git",
 		"url": "git+https://github.com/vvcigy/quiz-website_.git"
 	},
-	"author": "Bykovskiy Alexey",
+	"author": "Bykovskiy Alexey <alesha.byk@gmail.com>",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/vvcigy/quiz-website_/issues"
