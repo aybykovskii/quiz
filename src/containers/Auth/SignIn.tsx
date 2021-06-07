@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useHistory } from "react-router-dom"
 import axios from "axios"
 
 import { createAuthFormControls, validate, validateEmail, validateForm } from "@utils"
@@ -16,12 +16,13 @@ type TState = {
 
 export const SignIn: React.FC = () => {
 	const classes = useStyle()
+	const history = useHistory()
 	const initialState: TState = {
 		isFormValid: false,
 		formControls: createAuthFormControls(),
 	}
 	const [state, setState] = useState<TState>(initialState)
-	const { setIsAuth, setTokenToLS } = useContext(AuthContext)
+	const { setIsAuth, setTokenToLS } = useContext(AuthContext)()
 
 	const changeInputHandler = (value: string, controlName: any) => {
 		Object.values(state.formControls).map(element => {
@@ -70,6 +71,7 @@ export const SignIn: React.FC = () => {
 			const data: TSignIn = await axios.post("/api/auth/login", authData).then(res => res.data)
 			setTokenToLS(data.token)
 			setIsAuth(true)
+			history.push("/")
 		} catch (e) {
 			console.log(e)
 		}

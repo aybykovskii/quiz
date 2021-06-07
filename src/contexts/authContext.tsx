@@ -2,23 +2,37 @@ import axios from "axios"
 import React from "react"
 import { noopPromise } from "@utils"
 const Auth = () => {
+	//FIXME: isAuth don't update state
 	const [email, setEmail] = React.useState<string>("")
-	const [isAuth, setIsAuth] = React.useState<boolean>(false)
+	const [isAuth, _setIsAuth] = React.useState<boolean>()
 	const [token, setToken] = React.useState<string>("")
 
-	const setTokenToLS = (token: string) => {
-		localStorage.setItem("LOCAL_STORAGE_TOKEN", token), setIsAuth(true)
+	React.useEffect(() => {
+		const token = getTokenFromLS()
+		if (typeof token == "string") {
+			setTokenToLS(token)
+			setIsAuth(true)
+		}
+	}, [])
+
+	const setTokenToLS = (token: string): void => {
+		console.log(isAuth, token)
+		localStorage.setItem("LOCAL_STORAGE_TOKEN", token)
 	}
 
-	const getTokenFromLS = () => {
+	const getTokenFromLS = (): string | Error => {
 		console.log("token exist")
-		if (localStorage.getItem("LOCAL_STORAGE_TOKEN")) {
-			setIsAuth(true)
-			return localStorage.getItem("LOCAL_STORAGE_TOKEN")
+		const token = localStorage.getItem("LOCAL_STORAGE_TOKEN")
+		if (token) {
+			return token
 		} else {
-			setIsAuth(false)
+			// setIsAuth(false)
 			return new Error("token undefined")
 		}
+	}
+
+	const setIsAuth = (bool: boolean) => {
+		_setIsAuth(prev => bool)
 	}
 
 	const useAxiosGetWithToken = async (url: string) => {
@@ -33,25 +47,25 @@ const Auth = () => {
 	return {
 		token,
 		isAuth,
-		setIsAuth,
 		email,
+		setIsAuth,
 		setEmail,
 		getTokenFromLS,
 		setTokenToLS,
 		useAxiosGetWithToken,
 	}
 }
-const AuthDefault: ReturnType<typeof Auth> = {
-	token: "",
-	isAuth: false,
-	email: "",
-	setIsAuth: noopPromise as any,
-	setEmail: noopPromise as any,
-	getTokenFromLS: noopPromise as any,
-	setTokenToLS: noopPromise as any,
-	useAxiosGetWithToken: noopPromise as any,
-}
-export const AuthContext = React.createContext(AuthDefault)
+// const AuthDefault: ReturnType<typeof Auth> = {
+// 	token: "",
+// 	isAuth: false,
+// 	email: "",
+// 	setIsAuth: false,
+// 	setEmail: noopPromise as any,
+// 	getTokenFromLS: noopPromise as any,
+// 	setTokenToLS: noopPromise as any,
+// 	useAxiosGetWithToken: noopPromise as any,
+// }
+export const AuthContext = React.createContext(Auth)
 export const AuthContextProvider = (props: { children: React.ReactNode }) => {
-	return <AuthContext.Provider value={Auth()}>{props.children}</AuthContext.Provider>
+	return <AuthContext.Provider value={Auth}>{props.children}</AuthContext.Provider>
 }

@@ -7,9 +7,11 @@ import { AuthContext, AuthContextProvider } from "./contexts/authContext"
 
 export const App: React.FC = () => {
 	const globalStyles = useGlobalStyles()
-	const { isAuth, getTokenFromLS } = useContext(AuthContext)
+	const context = useContext(AuthContext)
+	const { getTokenFromLS, isAuth, setIsAuth } = context()
 	useEffect(() => {
-		getTokenFromLS()
+		const token = getTokenFromLS()
+		// setAuth(true)
 	}, [])
 	return (
 		<AuthContextProvider>

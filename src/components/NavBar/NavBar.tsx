@@ -5,7 +5,10 @@ import { useStyle } from "./style"
 
 export const NavBar: React.FC = () => {
 	const classes = useStyle()
-	const { isAuth } = React.useContext(AuthContext)
+	const { isAuth } = React.useContext(AuthContext)()
+	React.useEffect(() => {
+		console.log(isAuth)
+	}, [isAuth])
 	return (
 		<div className={classes.navBar}>
 			<div className={classes.wrapper}>
