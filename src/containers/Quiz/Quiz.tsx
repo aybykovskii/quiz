@@ -21,103 +21,112 @@ export const Quiz: React.FC<QuizProps> = props => {
 		isFinished: false,
 		activeQuestion: 0,
 		isLoaded: false,
-		quiestios: [],
+		questions: [],
 		results: [],
 	}
+
 	const [quiz, setQuiz] = useState<IQuiz>(emptyQuiz)
 
 	useEffect(() => {
+		console.log(props.match.params.id)
 		axios.get(`/api/quizes/${props.match.params.id}`).then(response => {
-			setQuiz(prev => {
-				return {
-					...prev,
-					isLoaded: true,
-					quiestios: response.data,
-				}
-			})
+			setQuiz(prev => ({
+				...prev,
+				isLoaded: true,
+				questions: response.data,
+			}))
 		})
 	}, [])
 
-	const userAnswersHandler = (event: React.MouseEvent<HTMLLIElement>) => {
-		const target = event.currentTarget
-		//проверка ответа пользователя и обновление массива ответов
-		if (quiz.isAnswerGet === false) {
-			setQuiz(prev => {
-				return {
-					...prev,
-					isAnswerGet: true,
-					results: [
-						...prev.results,
-						{
-							userAnswer: +target.id,
-							isCorrect: +target.id == prev.quiestios[prev.activeQuestion].rightAnswer,
-							answerTitle: prev.quiestios[prev.activeQuestion].title,
-						},
-					],
-				}
-			})
+	//Проверка ответа пользователя и обновление массива ответов
+	const checkIsAnswerGet = (target: EventTarget & HTMLLIElement): void => {
+		if (!quiz.isAnswerGet) {
+			setQuiz(prev => ({
+				...prev,
+				isAnswerGet: true,
+				results: [
+					...prev.results,
+					{
+						userAnswer: +target.id,
+						isCorrect: +target.id == prev.questions[prev.activeQuestion].rightAnswer,
+						answerTitle: prev.questions[prev.activeQuestion].title,
+					},
+				],
+			}))
 		}
-		//добавление класса ответу в зависимоти от его правильности
-		if (+target.id == quiz.quiestios[quiz.activeQuestion].rightAnswer) {
+	}
+
+	//Добавление класса ответу в зависимоти от его правильности
+	const addClassToTarget = (target: EventTarget & HTMLLIElement, quiz: IQuiz): void => {
+		if (+target.id == quiz.questions[quiz.activeQuestion].rightAnswer) {
 			target.classList.add(classes.success)
 		} else {
 			target.classList.add(classes.error)
 		}
+	}
 
-		//удаление класса и проверка на окончание теста
+	//Удаление класса и проверка на окончание теста
+	const removeClassFromTargetAndUpdateState = (
+		target: EventTarget & HTMLLIElement,
+		quiz: IQuiz
+	): void => {
 		const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
 			target.classList.remove(classes.success, classes.error)
-			if (quiz.activeQuestion + 1 !== quiz.quiestios.length) {
-				setQuiz(prev => {
-					return {
-						...prev,
-						activeQuestion: prev.activeQuestion + 1,
-						isAnswerGet: false,
-					}
-				})
+
+			if (quiz.activeQuestion + 1 !== quiz.questions.length) {
+				setQuiz(prev => ({
+					...prev,
+					activeQuestion: prev.activeQuestion + 1,
+					isAnswerGet: false,
+				}))
 			} else {
-				setQuiz(prev => {
-					return {
-						...prev,
-						isFinished: true,
-					}
-				})
+				setQuiz(prev => ({
+					...prev,
+					isFinished: true,
+				}))
 			}
 
 			return clearTimeout(timer)
 		}, 1500)
 	}
-
-	const testRepeatHandler = () => {
-		setQuiz(prev => {
-			return {
-				...emptyQuiz,
-				quiestios: prev.quiestios,
-				isLoaded: true,
-			}
-		})
+	//Функция по нажатию на вариант ответа
+	const userAnswersHandler = (event: React.MouseEvent<HTMLLIElement>): void => {
+		const target = event.currentTarget
+		checkIsAnswerGet(target)
+		addClassToTarget(target, quiz)
+		removeClassFromTargetAndUpdateState(target, quiz)
 	}
 
-	const quizListHandler = () => {}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///Finish page buttons functions
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Функция повтора теста
+	const testRepeatHandler = (): void => {
+		setQuiz(prev => ({
+			...emptyQuiz,
+			questions: prev.questions,
+			isLoaded: true,
+		}))
+	}
 
 	return (
 		<div className={classes.main}>
 			<div className={classes.wrapper}>
-				{quiz.isLoaded == false ? (
+				{!quiz.isLoaded ? (
 					<Loader />
-				) : quiz.isFinished == true ? (
+				) : quiz.isFinished ? (
 					<FinishPage
 						userAnswers={quiz.results}
+						questions={quiz.questions}
 						testRepeatHandler={testRepeatHandler}
-						quizListHandler={quizListHandler}
 					/>
 				) : (
 					<Question
-						title={quiz.quiestios[quiz.activeQuestion].title}
-						answers={quiz.quiestios[quiz.activeQuestion].answers}
+						title={quiz.questions[quiz.activeQuestion].title}
+						answers={quiz.questions[quiz.activeQuestion].answers}
 						userAnswersHandler={event => userAnswersHandler(event)}
 						activeQuestion={quiz.activeQuestion}
-						questionsCount={quiz.quiestios.length}
+						questionsCount={quiz.questions.length}
 					/>
 				)}
 			</div>
