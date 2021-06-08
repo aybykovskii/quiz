@@ -1,16 +1,19 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles"
 
 export const useGlobalStyles = makeStyles({
-  "@global": {
-    "*": {
-      fontFamily: '"Montserrat Alternates", sans-serif',
-    },
+	"@global": {
+		"*": {
+			margin: 0,
+			padding: 0,
+			fontFamily: '"Montserrat Alternates", sans-serif',
+			color: "#484848",
+			boxSizing: "border-box",
+		},
 
-    body: {
-      margin: 0,
-      fontFamily: '"Montserrat Alternates", sans-serif',
-      WebkitFontSmoothing: "antialiased",
-      MozOsxFontSmoothing: "grayscale",
-    },
-  },
-});
+		body: {
+			fontFamily: '"Montserrat Alternates", sans-serif',
+			WebkitFontSmoothing: "antialiased",
+			MozOsxFontSmoothing: "grayscale",
+		},
+	},
+})
