@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import axios from "axios"
 
-import { Loader } from "@components"
+import { Loader, TrashCanButton } from "@components"
 import { IResponse } from "@ts"
 import { useStyle } from "./style"
 
@@ -28,14 +28,19 @@ export const QuizList: React.FC = () => {
 		<Loader />
 	) : (
 		<div className={classes.page}>
-			<h1 className={classes.title}>Список доступных тестов</h1>
-			{quizes.map((element, index) => {
-				return (
-					<Link className={classes.test} key={index} to={`/quiz/${element.id}`}>
-						{element.name}
-					</Link>
-				)
-			})}
+			<div className={classes.titleWrapper}>
+				<h1 className={classes.title}>Список доступных тестов</h1>
+			</div>
+			<div className={classes.quizWrapper}>
+				{quizes.map((element, index) => {
+					return (
+						<Link className={classes.test} key={index} to={`/quiz/${element.id}`}>
+							{element.name}
+							<TrashCanButton />
+						</Link>
+					)
+				})}
+			</div>
 		</div>
 	)
 }

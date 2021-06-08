@@ -1,5 +1,21 @@
-import React from "react";
-
+import React from "react"
+import { useStyles } from "./style"
 export const Loader: React.FC = () => {
-  return <h1>Ожидание загрузки</h1>;
-};
+	const classes = useStyles()
+	return (
+		<div className={classes["lds-spinner"]}>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	)
+}
