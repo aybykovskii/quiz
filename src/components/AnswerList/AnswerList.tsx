@@ -9,7 +9,10 @@ type AnswerListProps = {
 	answers: Array<IAnswer>
 	userAnswersHandler: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, id: number) => void
 }
-export const AnswerList: React.FC<AnswerListProps> = ({ answers, userAnswersHandler }) => {
+export const AnswerList: React.FC<AnswerListProps> = ({
+	answers,
+	userAnswersHandler,
+}): JSX.Element => {
 	const classes = useStyle()
 	return (
 		<ul className={classes.answerList}>

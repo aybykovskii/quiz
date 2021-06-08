@@ -5,20 +5,25 @@ export const useStyle = makeStyles({
 		width: "100%",
 		height: "auto",
 		padding: "15px",
-		borderRadius: "10px",
-		background: "#2A2D3A",
 		marginBottom: "20px",
+
+		borderRadius: "10px",
+
+		background: "#2A2D3A",
 	},
 	title: {
-		color: "#FF922F",
 		marginBottom: "10px",
+
+		color: "#FF922F",
 	},
 	subtitle: {
-		color: "white",
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
-		"& > h3, & > small": {
+
+		color: "white",
+
+		"& > small": {
 			color: "#AFAFAF",
 		},
 	},
@@ -26,7 +31,9 @@ export const useStyle = makeStyles({
 		width: "100%",
 		height: "auto",
 		padding: "15px",
+
 		borderRadius: "10px",
+
 		background: "#2A2D3A",
 	},
 	hr: {

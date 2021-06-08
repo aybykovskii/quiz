@@ -1,16 +1,16 @@
-import { NavBar } from "@containers";
-import React from "react";
-import { useStyle } from "./style";
+import { NavBar } from "@containers"
+import React from "react"
+import { useStyle } from "./style"
 
 type LayoutProps = {
-  children: React.ReactNode;
-};
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const classes = useStyle();
-  return (
-    <div className={classes.layout}>
-      <NavBar />
-      {children}
-    </div>
-  );
-};
+	children: React.ReactNode
+}
+export const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
+	const classes = useStyle()
+	return (
+		<div className={classes.layout}>
+			<NavBar />
+			{children}
+		</div>
+	)
+}

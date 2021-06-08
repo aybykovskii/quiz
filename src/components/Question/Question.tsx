@@ -1,6 +1,8 @@
 import React from "react"
+
 import { AnswerList } from "@components"
 import { IAnswer } from "@ts/server"
+
 import { useStyle } from "./style"
 
 type TQuestionProps = {
@@ -16,7 +18,7 @@ export const Question: React.FC<TQuestionProps> = ({
 	questionsCount,
 	userAnswersHandler,
 	answers,
-}) => {
+}): JSX.Element => {
 	const classes = useStyle()
 
 	return (
@@ -31,7 +33,6 @@ export const Question: React.FC<TQuestionProps> = ({
 				<h1 className={classes.title}>{title}</h1>
 			</div>
 
-			{/* <hr className={classes.hr} /> */}
 			<div className={classes.AnswerWrapper}>
 				<AnswerList answers={answers} userAnswersHandler={userAnswersHandler} />
 			</div>

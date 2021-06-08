@@ -4,18 +4,23 @@ export const useStyle = makeStyles({
 	answerItem: {
 		width: "400px",
 		height: "auto",
-		color: "#FF922F",
-		background: "#2C2B32",
-		boxShadow: "0 0 4px #2C2B32",
-		borderRadius: "4px",
 		padding: "10px",
-		margin: "0 auto",
-		marginTop: "15px",
-		cursor: "pointer",
+		margin: "15px auto 0",
+
+		borderRadius: "4px",
+		boxShadow: "0 0 4px #2C2B32",
+		background: "#2C2B32",
+
+		color: "#FF922F",
+
 		transition: "0.5s",
+
+		cursor: "pointer",
+
 		"&:hover": {
-			transition: ".5s",
 			boxShadow: "0 0 2px #C87425",
+
+			transition: ".5s",
 		},
 	},
 })

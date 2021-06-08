@@ -16,6 +16,8 @@
 			"@components/*": ["src/components/*"],
 			"@containers": ["src/containers/index"],
 			"@containers/*": ["src/containers/*"],
+			"@contexts": ["src/contexts/index"],
+			"@contexts/*": ["src/contexts/*"],
 			"@ts": ["src/ts/index"],
 			"@ts/*": ["src/ts/*"],
 			"@axios": ["src/axios/axios-quiz"],

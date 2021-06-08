@@ -4,6 +4,7 @@ import axios from "axios"
 
 import { Loader, TrashCanButton } from "@components"
 import { IResponse } from "@ts"
+
 import { useStyle } from "./style"
 
 export const QuizList: React.FC = () => {
@@ -11,18 +12,27 @@ export const QuizList: React.FC = () => {
 	const classes = useStyle()
 
 	useEffect(() => {
-		axios.get("/api/quizes").then(response => {
-			response.data.forEach((key: string, index: number) => {
+		axios.get("/api/quizes").then(res => {
+			res.data.forEach((id: string, index: number) => {
+				const name = `Тест №${index + 1}`
 				setQuizes(prev => [
 					...prev,
 					{
-						id: key,
-						name: `Тест №${index + 1}`,
+						id,
+						name,
 					},
 				])
 			})
 		})
 	}, [])
+
+	const renderListItems = (quizes: IResponse[]) =>
+		quizes.map((element, index) => (
+			<Link className={classes.test} key={index} to={`/quiz/${element.id}`}>
+				{element.name}
+				<TrashCanButton />
+			</Link>
+		))
 
 	return quizes == [] ? (
 		<Loader />
@@ -31,16 +41,7 @@ export const QuizList: React.FC = () => {
 			<div className={classes.titleWrapper}>
 				<h1 className={classes.title}>Список доступных тестов</h1>
 			</div>
-			<div className={classes.quizWrapper}>
-				{quizes.map((element, index) => {
-					return (
-						<Link className={classes.test} key={index} to={`/quiz/${element.id}`}>
-							{element.name}
-							<TrashCanButton />
-						</Link>
-					)
-				})}
-			</div>
+			<div className={classes.quizWrapper}>{renderListItems(quizes)}</div>
 		</div>
 	)
 }

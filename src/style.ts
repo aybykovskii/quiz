@@ -5,13 +5,14 @@ export const useGlobalStyles = makeStyles({
 		"*": {
 			margin: 0,
 			padding: 0,
+
 			fontFamily: '"Montserrat Alternates", sans-serif',
 			color: "#484848",
+
 			boxSizing: "border-box",
 		},
 
 		body: {
-			fontFamily: '"Montserrat Alternates", sans-serif',
 			WebkitFontSmoothing: "antialiased",
 			MozOsxFontSmoothing: "grayscale",
 		},

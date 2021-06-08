@@ -1,14 +1,18 @@
 import React from "react"
 import { NavLink } from "react-router-dom"
-import { AuthContext } from "../../contexts/authContext"
+
+import { AuthContext } from "../../contexts"
+
 import { useStyle } from "./style"
 
-export const NavBar: React.FC = () => {
+export const NavBar: React.FC = (): JSX.Element => {
 	const classes = useStyle()
 	const { isAuth } = React.useContext(AuthContext)()
+
 	React.useEffect(() => {
 		console.log(isAuth)
 	}, [isAuth])
+
 	return (
 		<div className={classes.navBar}>
 			<div className={classes.wrapper}>

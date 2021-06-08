@@ -1,27 +1,28 @@
-import React from "react";
-import { useStyle } from "./style";
+import React from "react"
+import { useStyle } from "./style"
 
 type ButtonProps = {
-  type?: "button" | "submit" | "reset" | undefined;
-  children: React.ReactNode;
-  disabled?: boolean;
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-};
+	type?: "button" | "submit" | "reset" | undefined
+	disabled?: boolean
+	children: React.ReactNode
+	onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
 export const Button: React.FC<ButtonProps> = ({
-  type = "button",
-  children,
-  disabled,
-  onClick,
-}) => {
-  const classes = useStyle();
-  return (
-    <button
-      type={type}
-      className={classes.button}
-      disabled={disabled}
-      onClick={(event) => onClick(event)}
-    >
-      {children}
-    </button>
-  );
-};
+	type = "button",
+	children,
+	disabled,
+	onClick,
+}): JSX.Element => {
+	const classes = useStyle()
+
+	return (
+		<button
+			type={type}
+			className={classes.button}
+			disabled={disabled}
+			onClick={event => onClick(event)}
+		>
+			{children}
+		</button>
+	)
+}

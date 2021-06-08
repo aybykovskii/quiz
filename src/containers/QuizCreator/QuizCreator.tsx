@@ -6,6 +6,7 @@ import { Button, Input, Loader, Select } from "@components"
 import { IQuestion, IValidControl } from "@ts"
 
 import { useStyle } from "./style"
+import { JsxElement } from "typescript"
 
 type TState = {
 	quiz: IQuestion[]
@@ -14,37 +15,58 @@ type TState = {
 	formControls: ReturnType<typeof createFormControls>
 }
 
-export const QuizCreator: React.FC = () => {
+export const QuizCreator: React.FC = (): JSX.Element => {
 	const classes = useStyle()
-	const [state, setState] = useState<TState>({
+
+	const [quizState, setQuizState] = useState<TState>({
 		quiz: [],
 		isFormValid: false,
 		rightAnswer: 1,
 		formControls: createFormControls(),
 	})
 
-	//Функция изменяющая состояние select
+	//Функция изменяющая select state
 	const selectChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const target = event.currentTarget
-		setState(prev => {
-			return {
-				...prev,
-				rightAnswer: +target.value,
+		setQuizState(prev => ({
+			...prev,
+			rightAnswer: +target.value,
+		}))
+	}
+
+	//Изменение state при изменении value у input
+	const ChangeInputHandler = (value: string, controlNameId: number): void => {
+		const formControls = { ...quizState.formControls }
+
+		Object.values(formControls).map(control => {
+			if (control.id === controlNameId) {
+				control.touched = true
+				control.value = value
+				control.isValid = validate(control.value, control.validation)
 			}
 		})
+
+		setQuizState(prev => ({
+			...prev,
+			formControls,
+			isFormValid: validateForm(formControls),
+		}))
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///Функции отрабатывающие по нажатию на кнопки
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Функция отрабатывающая по нажатию на кнопку следующего вопроса
 	const onNextQuestionHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault()
 
-		const quiz = state.quiz.concat()
+		const quiz = quizState.quiz.concat()
 
-		const { question, option1, option2, option3, option4 } = state.formControls
+		const { question, option1, option2, option3, option4 } = quizState.formControls
 
 		const questionItem: IQuestion = {
 			title: question.value,
-			rightAnswer: state.rightAnswer,
+			rightAnswer: quizState.rightAnswer,
 			answers: [
 				{ text: option1.value },
 				{ text: option2.value },
@@ -55,7 +77,7 @@ export const QuizCreator: React.FC = () => {
 
 		quiz.push(questionItem)
 
-		setState({
+		setQuizState({
 			quiz,
 			isFormValid: false,
 			rightAnswer: 1,
@@ -68,9 +90,9 @@ export const QuizCreator: React.FC = () => {
 		event.preventDefault()
 
 		try {
-			await axios.post("/api/quizes", state.quiz)
+			await axios.post("/api/quizes", quizState.quiz)
 
-			setState({
+			setQuizState({
 				quiz: [],
 				isFormValid: false,
 				rightAnswer: 1,
@@ -81,63 +103,38 @@ export const QuizCreator: React.FC = () => {
 		}
 	}
 
-	//Функция отменяющая стандартное поведение формы при событии submit
-	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const onSubmitPreventDefault = (event: React.FormEvent<HTMLFormElement>): void => {
 		event.preventDefault()
 	}
 
-	//Изменение state при изменении value у input
-	const ChangeInputHandler = (value: string, controlName: any) => {
-		const formControls = { ...state.formControls }
-		const control = { ...controlName[1] }
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///Рендеринг элементов
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		Object.entries(formControls).map(element => {
-			if (element[1].id == control.id) {
-				element[1].touched = true
-				element[1].value = value
-				element[1].isValid = validate(element[1].value, element[1].validation)
-			}
-		})
-
-		setState(prev => {
-			return {
-				...prev,
-				formControls,
-				isFormValid: validateForm(formControls),
-			}
-		})
-	}
-
-	//Рендеринг Input с параметрами
-	const renderInputs = () => {
-		return Object.entries(state.formControls).map((controlName, index) => {
-			const control: IValidControl = controlName[1]
-
-			return (
-				<React.Fragment key={controlName + index.toString()}>
-					<Input
-						label={control.label}
-						value={control.value}
-						isValid={control.isValid}
-						shouldValidate={!!control.validation}
-						touched={control.touched}
-						errorMessage={control.errorMessage}
-						onChange={event => ChangeInputHandler(event.currentTarget.value, controlName)}
-					/>
-					{/* Рендерит черту после первого элемента */}
-					{index == 0 ? <hr /> : null}
-				</React.Fragment>
-			)
-		})
+	const renderInputs = (): JSX.Element[] => {
+		return Object.values(quizState.formControls).map((controlName, index) => (
+			<React.Fragment key={controlName + index.toString()}>
+				<Input
+					label={controlName.label}
+					value={controlName.value}
+					touched={controlName.touched}
+					isValid={controlName.isValid}
+					shouldValidate={!!controlName.validation}
+					errorMessage={controlName.errorMessage}
+					onChange={event => ChangeInputHandler(event.currentTarget.value, controlName.id!)}
+				/>
+				{!!index ? null : <hr />}
+			</React.Fragment>
+		))
 	}
 
 	return (
 		<div className={classes.page}>
-			<form className={classes.wrapper} onSubmit={event => onSubmit(event)}>
+			<form className={classes.wrapper} onSubmit={event => onSubmitPreventDefault(event)}>
 				{renderInputs()}
 				<Select
 					label="Выберите правильный ответ"
-					value={state.rightAnswer}
+					value={quizState.rightAnswer}
 					onChange={selectChangeHandler}
 					options={[
 						{ text: 1, value: 1 },
@@ -147,10 +144,10 @@ export const QuizCreator: React.FC = () => {
 					]}
 				/>
 				<div className={classes.buttonWrapper}>
-					<Button onClick={onNextQuestionHandler} disabled={!state.isFormValid}>
+					<Button onClick={onNextQuestionHandler} disabled={!quizState.isFormValid}>
 						Следующий вопрос
 					</Button>
-					<Button onClick={onCompleteQuizHandler} disabled={state.quiz.length == 0}>
+					<Button onClick={onCompleteQuizHandler} disabled={quizState.quiz.length === 0}>
 						Закончить тест
 					</Button>
 				</div>
